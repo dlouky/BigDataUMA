@@ -1,7 +1,7 @@
 package org.uma.mbd.mdLibreriaV1L.libreria;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Libreria {
     private List<Libro> libros;
@@ -11,12 +11,15 @@ public class Libreria {
     }
 
     public void addLibro(String autor, String titulo, double precioBase) {
-        int pos = posicionLibro(autor, titulo);
-        Libro libroNuevo = new Libro(autor, titulo, precioBase);
+        addLibro(new Libro(autor, titulo, precioBase));
+    }
+
+    private void addLibro(Libro libroNuevo) {
+        int pos = posicionLibro(libroNuevo.getAutor(), libroNuevo.getTitulo());
         if(pos < 0) {
             libros.add(libroNuevo);
         } else {
-           libros.set(pos,libroNuevo);
+            libros.set(pos, libroNuevo);
         }
     }
 
@@ -31,9 +34,7 @@ public class Libreria {
 
     public void remLibro(String autor, String titulo) {
         int pos = posicionLibro(autor, titulo);
-        if(pos >= 0) {
-            libros.remove(pos);
-        }
+        libros.remove(pos);
     }
 
     public double getPrecioBase(String autor, String titulo) {
@@ -45,7 +46,6 @@ public class Libreria {
         int pos = posicionLibro(autor, titulo);
         return (pos >= 0) ? libros.get(pos).getPrecioFinal() : 0;
     }
-
 
     @Override
     public String toString() {
