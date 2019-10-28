@@ -59,7 +59,7 @@ public class Main2 {
 		Comparator<Alumno> compNotas = Comparator.comparing(Alumno::getCalificacion);
 		Comparator<Alumno> compNotNomDni = compNotas.thenComparing(Comparator.naturalOrder());
 		Set<Alumno> setA = algebra.getAlumnos(compNotNomDni);
-		//setAlumnos.forEach(System.out::println); //--> No imprime la nota
+		//setA.forEach(System.out::println); //--> No imprime la nota
 		for(Alumno alumno : setA) {
 			System.out.println(alumno + " " + alumno.getCalificacion());
 		}
