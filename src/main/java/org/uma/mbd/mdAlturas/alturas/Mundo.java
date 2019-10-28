@@ -28,6 +28,7 @@ public class Mundo {
         }
     }
 
+
     private void stringToPais(String datos) {
         try(Scanner sc = new Scanner(datos)) {
             sc.useDelimiter(",");
@@ -52,7 +53,29 @@ public class Mundo {
             }
         }
         return lista;
+    }
 
+    public Map<String, Integer> numPaisesPorContinente() {
+        Map<String, Integer> map = new HashMap<>();
+        for(Pais pais : paises) {
+            int veces = map.getOrDefault(pais.getContinente(), 0);
+            map.put(pais.getContinente(), veces + 1);
+        }
+        return map;
+    }
+
+    public Map<String, Set<Pais>> paisesPorContinente() {
+        Map<String, Set<Pais>> map = new TreeMap<>();//new HashMap<>();
+        Comparator<Pais> compA = Comparator.comparingDouble(Pais::getAltura); //(p1, p2) -> Double.compare(p1.getAltura(), p2.getAltura());
+        Comparator<Pais> compN = Comparator.comparing(p -> p.getNombre()); //(p1, p2) -> p1.getNombre().compareTo(p2.getNombre());
+        Comparator<Pais> comp = compA.thenComparing(compN);
+        for (Pais pais : paises) {
+            String continente = pais.getContinente();
+            Set<Pais> set = map.computeIfAbsent(continente, c -> new TreeSet<>(comp));
+            set.add(pais);
+            //si se pone un map.put es porque no entendiste el tema!
+        }
+        return map;
     }
 
 }
