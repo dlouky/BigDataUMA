@@ -48,12 +48,8 @@ public class Alumno implements Comparable <Alumno> {
 	}
 
 	@Override
-	public int compareTo(Alumno alumno) {
-		int res = nombre.compareTo(alumno.nombre);
-		if(res==0) {
-			res = dni.compareTo(alumno.dni);
-		}
-		return res;
+	public int compareTo(Alumno alumno) { //Orden Natural => por nombre y luego por dni
+		return (nombre.compareTo(alumno.nombre)!=0) ? nombre.compareTo(alumno.nombre) : dni.compareTo(alumno.dni);
 	}
 
 }

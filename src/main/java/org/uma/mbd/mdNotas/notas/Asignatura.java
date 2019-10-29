@@ -47,7 +47,7 @@ public class Asignatura {
 			if(!dniAlumno.matches(DNI)) {
 				throw new AlumnoException("DNI Incorrecto: ");
 			}
-			alumnos.add(new Alumno(dniAlumno, nombreAlumno, notaAlumno)); //ver si los sc.next() de arriba se pueden meter como argumentos.
+			alumnos.add(new Alumno(dniAlumno, nombreAlumno, notaAlumno));
 		} catch (AlumnoException e) {
 			errores.add(e.getMessage() + linea);
 		} catch (InputMismatchException e) {
@@ -107,8 +107,9 @@ public class Asignatura {
 		Map<Character, Set<Alumno>> map = new TreeMap<>();
 		for (Alumno alumno : alumnos) {
 			char nombreInicial = alumno.getNombre().charAt(0);
-			Set<Alumno> set = map.computeIfAbsent(nombreInicial, c -> new TreeSet<>(compNotas.thenComparing(Comparator.naturalOrder())));
-			set.add(alumno);
+			Set<Alumno> setAl = map.computeIfAbsent(nombreInicial,
+					key -> new TreeSet<>(compNotas.thenComparing(Comparator.naturalOrder())));
+			setAl.add(alumno);
 		}
 		return map;
 	}
