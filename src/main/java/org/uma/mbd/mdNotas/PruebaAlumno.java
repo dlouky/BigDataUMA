@@ -13,6 +13,7 @@ public class PruebaAlumno {
 
         System.out.println( alumno1.equals(alumno2) ? "Alumnos iguales" : "Alumnos distintos" );
 
-        alumno2 = new Alumno("33456777S", "Gonzalez Perez, Juan", -3.4); //Arroja la Exception AlumnoException por ser nota negativa.
+        alumno2 = new Alumno("33456777S", "Gonzalez Perez, Juan", -3.4);
+        //Arroja la Exception AlumnoException por ser nota negativa.
     }
 }

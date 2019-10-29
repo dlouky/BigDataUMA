@@ -28,7 +28,7 @@ public class Main2 {
 		try {
 			CalculoMedia m1 = new MediaAritmetica();
 			CalculoMedia m2 = new MediaArmonica();
-			double min = 5.0;
+			double min = Asignatura.APROBADO;
 			double max = 9.0;
 			CalculoMedia m3 = new MediaSinExtremos(min,max);
 			
@@ -39,11 +39,10 @@ public class Main2 {
 			System.out.print("Media de valores en ["+min+","+max+"] ");
 			System.out.println(algebra.getMedia(m3));
 		} catch (AlumnoException e) {
-			System.out.println("Error "+ e.getMessage());
+			System.err.println("Error "+ e.getMessage());
 		}
 		System.out.println("Alumnos...");
-		algebra.getAlumnos().forEach(
-				alumno -> System.out.println(alumno + ": " + alumno.getCalificacion()));
+		algebra.getAlumnos().forEach( alumno -> System.out.println(alumno + ": " + alumno.getCalificacion()) );
 
 		System.out.println("Malos...");
 		algebra.getErrores().forEach(System.out::println);
@@ -56,33 +55,25 @@ public class Main2 {
 
 		System.out.println();
 		System.out.println("Alumnos ordenados por notas, a igualdad de notas por nombre y a igualdad de nombres por dni");
-		Comparator<Alumno> compNotas = Comparator.comparing(Alumno::getCalificacion);
-		Comparator<Alumno> compNotNomDni = compNotas.thenComparing(Comparator.naturalOrder());
-		Set<Alumno> setA = algebra.getAlumnos(compNotNomDni);
-		//setA.forEach(System.out::println); //--> No imprime la nota
-		for(Alumno alumno : setA) {
-			System.out.println(alumno + " " + alumno.getCalificacion());
-		}
+		Comparator<Alumno> compA = Comparator.comparing(Alumno::getCalificacion).thenComparing(Comparator.naturalOrder());
+		Set<Alumno> setA = algebra.getAlumnos(compA);
+		setA.forEach(alumno -> System.out.println( alumno + " " + alumno.getCalificacion()) );
 
 
 		System.out.println();
 		System.out.println("Alumnos ordenados por dni descendentes");
-		Comparator<Alumno> compDni = Comparator.comparing(Alumno::getDni);
-		Set<Alumno> setB = algebra.getAlumnos(compDni.reversed());
-		for(Alumno alumno : setB) {
-			System.out.println(alumno + " " + alumno.getCalificacion());
-		}
+		Comparator<Alumno> compB = Comparator.comparing(Alumno::getDni);
+		Set<Alumno> setB = algebra.getAlumnos(compB.reversed());
+		setB.forEach( alumno -> System.out.println( alumno + " " + alumno.getCalificacion()) );
+
 
 		System.out.println();
 		System.out.println("Correspondencia de alumnos por inicial");
 		Map<Character, Set<Alumno>> map = algebra.getAlumnosInicial();
-		for (Character k : map.keySet()) {
+		map.forEach((k,v) -> {
 			System.out.println("Letra " + k);
-			Set<Alumno> setC = map.get(k);
-			for (Alumno alumno : setC) {
-				System.out.println(alumno + " " + alumno.getCalificacion());
-			}
-		}
+			map.get(k).forEach( alumno -> System.out.println(alumno + " " + alumno.getCalificacion()) );
+		});
 	}
 }
 

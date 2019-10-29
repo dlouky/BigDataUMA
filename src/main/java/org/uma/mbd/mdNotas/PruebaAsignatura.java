@@ -25,7 +25,8 @@ public class PruebaAsignatura {
 
             Alumno al2 = new Alumno("12455666F", "Lopez Lopez, Pedro");
             System.out.println("\nCalificacion de " + al2.getNombre() + ": " + asignatura.getCalificacion(al2));
-
+            //el método de instancia getCalificacion de la clase Asignatura arroja el AlumnoException
+            // por no encontrar al alumno en la asignatura. Este exception es capturada por el catch siguiente:
         } catch(AlumnoException e) {
             System.out.println(e.getMessage());
         }

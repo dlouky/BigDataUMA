@@ -1,20 +1,14 @@
 package org.uma.mbd.mdNotas.notas;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.rmi.NoSuchObjectException;
 import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Asignatura {
 	private String nombre;
 	private List<Alumno> alumnos;
 	private List<String> errores;
 
-	private static final double APROBADO = 5;
+	public static final double APROBADO = 5; //cambio a public para usar en Main2 línea 31
 	private static final String DNI = "[0-9]{8}[A-Z&&[^IOU]]";
 
 	public Asignatura(String nombreAsignatura) {
@@ -32,8 +26,8 @@ public class Asignatura {
 	}
 
 	public void leeDatos(String[] datos) {
-		for (String dato: datos) {
-			stringAAlumno(dato);
+		for (String linea: datos) {
+			stringAAlumno(linea);
         }
 	}
 
@@ -49,7 +43,7 @@ public class Asignatura {
 			}
 			alumnos.add(new Alumno(dniAlumno, nombreAlumno, notaAlumno));
 		} catch (AlumnoException e) {
-			errores.add(e.getMessage() + linea);
+			errores.add(e.getMessage() + linea); //Nota negativa o DNI Incorrecto
 		} catch (InputMismatchException e) {
 			errores.add("Nota no numérica: " + linea);
 		} catch (NoSuchElementException e) {
@@ -61,11 +55,7 @@ public class Asignatura {
  		if(!alumnos.contains(al)) {
  			throw new AlumnoException("No existe el alumno " + al);
 		}
-		int pos = 0;
- 		while (pos < alumnos.size() && !alumnos.get(pos).equals(al)) {
- 			pos++;
-		}
- 		return alumnos.get(pos).getCalificacion();
+		return alumnos.get(alumnos.indexOf(al)).getCalificacion();
     }
 
 	public List<Alumno> getAlumnos() {
@@ -107,8 +97,8 @@ public class Asignatura {
 		Map<Character, Set<Alumno>> map = new TreeMap<>();
 		for (Alumno alumno : alumnos) {
 			char nombreInicial = alumno.getNombre().charAt(0);
-			Set<Alumno> setAl = map.computeIfAbsent(nombreInicial,
-					key -> new TreeSet<>(compNotas.thenComparing(Comparator.naturalOrder())));
+			Set<Alumno> setAl = map.computeIfAbsent( nombreInicial,
+					key -> new TreeSet<>( compNotas.thenComparing(Comparator.naturalOrder()) ) );
 			setAl.add(alumno);
 		}
 		return map;

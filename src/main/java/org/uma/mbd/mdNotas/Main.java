@@ -38,7 +38,7 @@ public class Main {
 			System.out.print("Media de valores en ["+min+","+max+"] ");
 			System.out.println(algebra.getMedia(m3));
 		} catch (AlumnoException e) {
-			System.out.println("Error "+ e.getMessage());
+			System.err.println("Error "+ e.getMessage());
 		}
 		System.out.println("Alumnos...");
 		algebra.getAlumnos().forEach(
